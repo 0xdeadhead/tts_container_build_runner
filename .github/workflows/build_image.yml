@@ -24,4 +24,12 @@ jobs:
           push: false     # only build, don’t push
           load: true      # makes image available to 'docker images' in this job
           tags: tts_app:test
+      - name: Save image as tarball
+        run: docker save tts_app:test -o tts_app.tar
+
+      - name: Upload image tarball as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tts-app-image
+          path: tts_app.tar
 
