@@ -1,0 +1,27 @@
+name: CI — Build Docker image
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04   # pin to Ubuntu 22.04 runner
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image (no push)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false     # only build, don’t push
+          load: true      # makes image available to 'docker images' in this job
+          tags: tts_app:test
+
