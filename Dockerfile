@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 
+FROM ubuntu:22.04 AS base
 
 # Avoid interactive prompts during package install
 ENV DEBIAN_FRONTEND=noninteractive
@@ -13,6 +13,8 @@ RUN pip install --no-cache-dir chatterbox-tts runpod
 WORKDIR /app
 COPY main.py /app
 
-# Default command
+FROM base AS serverless
 CMD ["python3", "-u", "main.py"]
 
+FROM base AS pod
+CMD ["/bin/bash"]
