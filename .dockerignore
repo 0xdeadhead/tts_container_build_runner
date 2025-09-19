@@ -1,0 +1,40 @@
+# Python cache / build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+build/
+dist/
+lib/
+bin/
+include/
+pyvenv.cfg
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# IDE/editor configs
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker-related
+Dockerfile
+.dockerignore
+.github/
+.git/

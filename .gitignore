@@ -1,0 +1,10 @@
+/bin/
+/include/
+/lib/
+/share/
+./*.wav
+README.rst
+.runpod_jobs.*
+CHANGES.rst
+pyvenv.cfg
+README.rst
