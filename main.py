@@ -25,6 +25,7 @@ def handler(params):
     delimiting_token = model_inputs["delimiting_token"]
     silence_duration = model_inputs["silence_duration"]
     sent_limit_per_chunk = model_inputs["sent_limit_per_chunk"]
+    temperature = model_inputs["temperature"]
     text = model_inputs["text"]
     voice_path = (
         "./voice_samples/female_voice.mp3"
@@ -45,8 +46,9 @@ def handler(params):
         text=text,
         audio_prompt_path=Path(voice_path),
         progress_update_callback=lambda a, b: runpod.serverless.progress_update(
-            params, f"Progress: {a/b} %"
+            params, {"sections_processed": a, "total_sections": b}
         ),
+        temperature=temperature,
     )
     file_name = uuid.uuid4()
     ta.save(
