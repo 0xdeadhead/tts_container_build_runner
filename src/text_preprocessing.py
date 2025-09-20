@@ -17,7 +17,7 @@ class TextPreProcessor:
         spacy_model_lang_code: str,
         delimiting_token: str,
         sent_limit_per_chunk: int = 5,
-        sent_joiner: str = "...",
+        sent_joiner: str = "",
     ):
         try:
             self.nlp = spacy.load(spacy_model_lang_code)
