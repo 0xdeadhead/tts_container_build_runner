@@ -32,7 +32,7 @@ class AudioGenerator:
     ):
         sections = self.text_preprocessor.get_sections(text=text)
         audio_chunks = []
-        for section in sections:
+        for section_index, section in enumerate(sections):
             if section != self.text_preprocessor.delimiting_token:
                 partitions_generator = self.text_preprocessor.get_partitions(section)
                 for chunk in partitions_generator:
@@ -51,5 +51,5 @@ class AudioGenerator:
             else:
                 audio_chunks.append(self.silence)
             if progress_update_callback:
-                progress_update_callback(len(audio_chunks), len(sections))
+                progress_update_callback(section_index, len(sections))
         return torch.cat(tuple(audio_chunks), dim=1)
