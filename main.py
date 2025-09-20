@@ -34,7 +34,7 @@ def handler(params):
     sent_limit_per_chunk = model_inputs["sent_limit_per_chunk"]
     temperature = model_inputs["temperature"]
     text = model_inputs["text"]
-    repetition_penalty = model_inputs["repetition_penalty"]
+    repetition_penalty = float(model_inputs["repetition_penalty"])
     voice_path = VOICE_SAMPLE_DIR.joinpath(model_inputs["voice"])
     processor = TextPreProcessor(
         delimiting_token=delimiting_token,
