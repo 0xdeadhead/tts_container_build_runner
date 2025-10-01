@@ -86,11 +86,10 @@ def handler(params):
         bucket_name=AWS_S3_BUCKET_NAME,
         expires_in=url_expiry_days * 86400,
     )
-    asyncio.run(
-        telegram_client.send_message(
-            text=f"Script :\n\n {text[:60]} \n\n Download at : {file_url} ",
-            chat_ids=chat_ids,
-        )
+    # ignore errors here, runpod already runs in event loop
+    await telegram_client.send_message(
+        text=f"Script :\n\n {text[:60]} \n\n Download at : {file_url} ",
+        chat_ids=chat_ids,
     )
     return {"file_url": f"{file_url}"}
 
