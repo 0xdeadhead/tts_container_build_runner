@@ -41,7 +41,7 @@ s3_client = S3Client(
 telegram_client = TelegramClient(api_token=TELEGRAM_BOT_TOKEN)
 
 
-def handler(params):
+async def handler(params):
     model_inputs = params["input"]
     callback_url = params["webhook"]  # onhold
     delimiting_token = model_inputs["delimiting_token"]
@@ -73,8 +73,8 @@ def handler(params):
         temperature=temperature,
         repetition_penalty=repetition_penalty,
     )
-    file_name = str(uuid.uuid4())
-    file_path = FILE_SAVE_ROOT_DIR.joinpath(f"{file_name}.{audio_format}")
+    file_name = f"{str(uuid.uuid4())}.{audio_format}"
+    file_path = FILE_SAVE_ROOT_DIR.joinpath(file_name)
     ta.save(file_path, wav, audio_generator.model.sr)
     LOGGER.info(f" Uploading {file_name} to {AWS_S3_BUCKET_NAME} ")
     s3_client.upload_file(
@@ -86,7 +86,6 @@ def handler(params):
         bucket_name=AWS_S3_BUCKET_NAME,
         expires_in=url_expiry_days * 86400,
     )
-    # ignore errors here, runpod already runs in event loop
     await telegram_client.send_message(
         text=f"Script :\n\n {text[:60]} \n\n Download at : {file_url} ",
         chat_ids=chat_ids,
