@@ -76,7 +76,6 @@ murmurhash==1.0.13
 networkx==3.2.1
 nodeenv==1.9.1
 numba==0.60.0
-numpy==2.0.2
 onnx==1.19.0
 orjson==3.11.3
 packaging==25.0
