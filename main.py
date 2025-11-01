@@ -1,5 +1,6 @@
 import asyncio
 from chatterbox.tts import ChatterboxTTS
+from src.audio_processing import AudioProcessor
 from src.telegram_client import TelegramClient
 from src.s3_client import S3Client
 from src.audio_generation import AudioGenerator
@@ -39,6 +40,7 @@ s3_client = S3Client(
 )
 
 telegram_client = TelegramClient(api_token=TELEGRAM_BOT_TOKEN)
+audio_processor = AudioProcessor()
 
 
 async def handler(params):
@@ -54,6 +56,9 @@ async def handler(params):
     voice_path = VOICE_SAMPLE_DIR.joinpath(model_inputs["voice"])
     url_expiry_days = model_inputs["url_expiry_days"]
     chat_ids = model_inputs["chat_ids"]
+    min_silence_len = model_inputs["min_silence_len"]
+    silence_thresh = model_inputs["silence_thresh"]
+    hop_size = model_inputs["hop_size"]
     processor = TextPreProcessor(
         delimiting_token=delimiting_token,
         spacy_model_lang_code="en_core_web_sm",
@@ -75,7 +80,20 @@ async def handler(params):
     )
     file_name = f"{str(uuid.uuid4())}.{audio_format}"
     file_path = FILE_SAVE_ROOT_DIR.joinpath(file_name)
-    ta.save(file_path, wav, audio_generator.model.sr)
+    # audio post processing
+    LOGGER.info(f" Converting wav tensor to audio segment....")
+    audio_segment = audio_processor.torch_tensor_to_audiosegment(
+        waveform=wav, sample_rate=audio_generator.model.sr
+    )
+    LOGGER.info(f" Trimming Silences....")
+    trimmed_audio_segment = audio_processor.trim_silences(
+        audio_segment=audio_segment,
+        min_silence_len=min_silence_len,
+        silence_thresh=silence_thresh,
+        hop_size=hop_size,
+    )
+    trimmed_audio_segment.export(file_path, format=audio_format)
+    # ta.save(file_path, wav, audio_generator.model.sr)
     LOGGER.info(f" Uploading {file_name} to {AWS_S3_BUCKET_NAME} ")
     s3_client.upload_file(
         file_path=file_path, bucket_name=AWS_S3_BUCKET_NAME, object_key=file_name
