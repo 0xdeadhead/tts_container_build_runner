@@ -9,9 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 python3-dev python3-distutils curl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py \
-    && python3 /tmp/get-pip.py \
-    && python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3 get-pip.py && python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel
 
 # Ensure numpy wheel is available
 RUN python3 -m pip install --no-cache-dir numpy==2.0.2
