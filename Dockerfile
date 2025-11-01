@@ -10,7 +10,7 @@ COPY . /app
 # Update and install build-essential
 RUN apt-get update && apt-get install -y build-essential python3 curl python3-dev
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3 get-pip.py
-RUN python3 -m pip install --no-cache-dir numpy
+RUN python3 -m pip install --no-cache-dir numpy==2.0.2
 RUN PIP_NO_BUILD_ISOLATION=1 python3 -m pip install --no-cache-dir -r requirements.txt
 # RUN pip install --no-cache-dir chatterbox-tts runpod
 
