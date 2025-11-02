@@ -11,7 +11,8 @@ COPY . /app
 RUN apt-get update && apt-get install -y build-essential python3.11 curl python3.11-dev git 
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3.11 get-pip.py
 # pip install chatterbox-tts
-RUN python3.11 -m pip install --upgrade pip "numpy>=1.24.0,<1.26.0"
+RUN python3.11 -m pip install --upgrade pip "numpy>=1.24.0,<1.26.0" 
+RUN python3.11 -m pip install -e git+https://github.com/resemble-ai/chatterbox.git@bf169fe5f518760cb0b6c6a6eba3f885e10fa86f#egg=chatterbox_tts
 RUN python3.11 -m pip install --no-cache-dir -r requirements.txt
 RUN python3.11 -m pip install --upgrade numpy==2.3.4
 # RUN pip install --no-cache-dir chatterbox-tts runpod

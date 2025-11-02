@@ -21,7 +21,6 @@ certifi==2025.10.5
 cffi==2.0.0
 cfgv==3.4.0
 charset-normalizer==3.4.4
--e git+https://github.com/resemble-ai/chatterbox.git@bf169fe5f518760cb0b6c6a6eba3f885e10fa86f#egg=chatterbox_tts
 click==8.3.0
 cloudpathlib==0.23.0
 colorama==0.4.6
@@ -134,7 +133,7 @@ smart_open==7.4.2
 sniffio==1.3.1
 soundfile==0.13.1
 soxr==1.0.0
-spacy==3.6.*
+spacy==3.8.7
 spacy-legacy==3.0.12
 spacy-loggers==1.0.5
 spacy_pkuseg==1.0.1
